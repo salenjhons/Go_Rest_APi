@@ -1,14 +1,38 @@
 package db
 
-import "https://github.com/jmoiron/sqlx"
+import (
+	"context"
+	"fmt"
+	"os"
 
-type Database struc {
+	"github.com/jmoiron/sqlx"
+)
+
+type Database struct {
 	Client *sqlx.DB
 }
 
 func NewDatabase() (*Database, error) {
 	connectionString := fmt.Sprintf(
-		"host=%s port=%s user=%s dbname=%s password=%s sslmode-%s"
-		
-	)	
+		"host=%s port=%s user=%s dbname=%s password=%s sslmode-%s",
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_PORT"),
+		os.Getenv("DB_USERNAME"),
+		os.Getenv("DB_TABLE"),
+		os.Getenv("DB_PASSWORD"),
+		os.Getenv("SSL_MOED"),
+	)
+
+	dbConn, err := sqlx.Connect("postgress", connectionString)
+	if err != nil {
+		return &Database{}, fmt.Errorf("could not connect to database: %w", err)
+	}
+
+	return &Database{
+		Client: dbConn,
+	}, nil
+}
+
+func (d *Database) Ping(ctx context.Context) error {
+	return d.Client.DB.PingContext(ctx)
 }
