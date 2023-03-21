@@ -25,7 +25,6 @@ type CommentStore interface {
 	PostComment(context.Context, Comment) (Comment, error)
 	UpdateComment(context.Context, string, Comment) (Comment, error)
 	DeleteComment(context.Context, string) error
-	Ping(context.Context) error
 }
 
 // Service - the struct for our comment service
