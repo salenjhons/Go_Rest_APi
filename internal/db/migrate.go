@@ -3,7 +3,7 @@ package db
 import (
 	"errors"
 	"fmt"
-
+	"log"
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
@@ -21,7 +21,7 @@ func (d *Database) MigrateDB() error {
 		"file:///migrations",
 		"postgres", driver)
 	if err != nil {
-		fmt.Errorf("%w", err)
+		log.Print(err.Error())
 		return err
 	}
 

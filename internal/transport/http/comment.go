@@ -101,5 +101,4 @@ func (h *Handler) DeleteComment(w http.ResponseWriter, r *http.Request) {
 		if err := json.NewEncoder(w).Encode(Response{Message: "Succesfully deleted"}); err != nil {
 			panic(err)
 		}
-	
 }
